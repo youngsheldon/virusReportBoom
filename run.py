@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-20 11:30:02
+# @Last Modified time: 2017-03-20 11:53:14
 import os 
 import commands 
 import sys
@@ -27,10 +27,11 @@ class Statistics(object):
         f = open(self.apk_basic_info_path,'r')
         for line in f:
             v = line.strip().split(',')
-            virus_flag = int(v[12])
-            md5 = v[2]
-            if virus_flag > 1:
-                v_apk_md5_list.append(md5)
+            if len(v) == 22:
+                virus_flag = int(v[12])
+                md5 = v[2]
+                if virus_flag > 1:
+                    v_apk_md5_list.append(md5)
         f.close()
         return v_apk_md5_list 
 
@@ -39,12 +40,13 @@ class Statistics(object):
         f = open(self.apk_basic_info_path,'r')
         for line in f:
             v = line.strip().split(',')
-            ip_tar1 = v[16]
-            ip_tar_belong1 = v[17]
-            ip_dict[ip_tar1] = ip_tar_belong1
-            ip_tar2 = v[18]
-            ip_tar_belong2 = v[19]
-            ip_dict[ip_tar2] = ip_tar_belong2
+            if len(v) == 22:
+                ip_tar1 = v[16]
+                ip_tar_belong1 = v[17]
+                ip_dict[ip_tar1] = ip_tar_belong1
+                ip_tar2 = v[18]
+                ip_tar_belong2 = v[19]
+                ip_dict[ip_tar2] = ip_tar_belong2
         f.close()
         return ip_dict 
 
