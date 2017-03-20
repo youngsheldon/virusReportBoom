@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-20 14:10:17
+# @Last Modified time: 2017-03-20 16:48:22
 import os 
 import commands 
 import sys
@@ -33,6 +33,8 @@ class Statistics(object):
                 if virus_flag > 1:
                     v_apk_md5_list.append(md5)
         f.close()
+        print 'virus md5 list'
+        print v_apk_md5_list
         return v_apk_md5_list 
 
     def get_ip_map(self):
@@ -59,6 +61,7 @@ class Statistics(object):
             if len(v) == 17:
                 md5 = v[12]
                 if md5 in v_apk_md5_list:
+                    print md5 
                     virus_sm_list.append(v)
         f.close()
         return virus_sm_list 
@@ -67,6 +70,8 @@ class Statistics(object):
         url_list = []
         virus_sm_list = self.get_virus_sm_list()
         for v in virus_sm_list:
+            print 'virus url'
+            print v[7]
             url_list.append(v[7])
         return list(set(url_list))
 
