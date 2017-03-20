@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-20 16:48:22
+# @Last Modified time: 2017-03-20 17:19:19
 import os 
 import commands 
 import sys
@@ -27,11 +27,10 @@ class Statistics(object):
         f = open(self.apk_basic_info_path,'r')
         for line in f:
             v = line.strip().split(',')
-            if len(v) == 22:
-                virus_flag = int(v[12])
-                md5 = v[2]
-                if virus_flag > 1:
-                    v_apk_md5_list.append(md5)
+            virus_flag = int(v[12])
+            md5 = v[2]
+            if virus_flag > 1:
+                v_apk_md5_list.append(md5)
         f.close()
         print 'virus md5 list'
         print v_apk_md5_list
@@ -42,13 +41,12 @@ class Statistics(object):
         f = open(self.apk_basic_info_path,'r')
         for line in f:
             v = line.strip().split(',')
-            if len(v) == 22:
-                ip_tar1 = v[16]
-                ip_tar_belong1 = v[17]
-                ip_dict[ip_tar1] = ip_tar_belong1
-                ip_tar2 = v[18]
-                ip_tar_belong2 = v[19]
-                ip_dict[ip_tar2] = ip_tar_belong2
+            ip_tar1 = v[16]
+            ip_tar_belong1 = v[17]
+            ip_dict[ip_tar1] = ip_tar_belong1
+            ip_tar2 = v[18]
+            ip_tar_belong2 = v[19]
+            ip_dict[ip_tar2] = ip_tar_belong2
         f.close()
         return ip_dict 
 
@@ -58,11 +56,10 @@ class Statistics(object):
         f = open(self.virus_alarm_path,'r')
         for line in f:
             v = line.strip().split(',')
-            if len(v) == 19:
-                md5 = v[12]
-                if md5 in v_apk_md5_list:
-                    print md5 
-                    virus_sm_list.append(v)
+            md5 = v[12]
+            if md5 in v_apk_md5_list:
+                print md5 
+                virus_sm_list.append(v)
         f.close()
         return virus_sm_list 
 
@@ -80,10 +77,9 @@ class Statistics(object):
         f = open(self.virus_alarm_path,'r')
         for line in f:
             v = line.strip().split(',')
-            if len(v) == 19:
-                url = v[7]
-                ip = v[11]
-                url_ip_dict[url] = ip 
+            url = v[7]
+            ip = v[11]
+            url_ip_dict[url] = ip 
         f.close()
         return url_ip_dict
 
