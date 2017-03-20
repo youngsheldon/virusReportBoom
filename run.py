@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-15 18:06:59
+# @Last Modified time: 2017-03-20 10:25:51
 import os 
 import commands 
 import sys
@@ -242,24 +242,35 @@ class Statistics(object):
         return tb_n
 
     def bcp_load_apk_basic(self):
-        pw = self.dict_set['DatabasePWD']
-        s_n = self.dict_set['DatabaseServer']
-        db_n = self.dict_set['ApkBasicDbName']
-        u_n = self.dict_set['DatabaseUser']
-        tb_n = 'apk_basic_info'
-        out_p = self.dict_set['RefDir'] + 'apk_basic_info.csv'
-        cmd = 'bcp ' + db_n + '..' + tb_n + ' out ' + out_p + ' -U' + u_n + ' -P' + pw + ' -S' + s_n + ' -c -t\',\' -r\'\\n\''
-        self.cmd_exec(cmd)
+        db_version = self.dict_set['DatabaseVersion']
+        if db_version == 'Oracle':
+            cmd = 'bash shell/download_apk_basic_info.sh'
+            self.cmd_exec(cmd)
+        else:
+            pw = self.dict_set['DatabasePWD']
+            s_n = self.dict_set['DatabaseServer']
+            db_n = self.dict_set['ApkBasicDbName']
+            u_n = self.dict_set['DatabaseUser']
+            tb_n = 'apk_basic_info'
+            out_p = self.dict_set['RefDir'] + 'apk_basic_info.csv'
+            cmd = 'bcp ' + db_n + '..' + tb_n + ' out ' + out_p + ' -U' + u_n + ' -P' + pw + ' -S' + s_n + ' -c -t\',\' -r\'\\n\''
+            self.cmd_exec(cmd)
 
     def bcp_load_sm_alarm(self):
-        pw = self.dict_set['DatabasePWD']
-        s_n = self.dict_set['DatabaseServer']
-        db_n = self.dict_set['SmAlarmDbName']
-        u_n = self.dict_set['DatabaseUser']
-        tb_n = self.get_sm_alarm_tbname()
-        out_p = self.dict_set['RefDir'] + tb_n + '.csv'
-        cmd = 'bcp ' + db_n + '..' + tb_n + ' out ' + out_p + ' -U' + u_n + ' -P' + pw + ' -S' + s_n + ' -c -t\',\' -r\'\\n\''
-        self.cmd_exec(cmd)
+        date = self.dict_set['DateStart'][0:6]
+        db_version = self.dict_set['DatabaseVersion']
+        if db_version == 'Oracle':
+            cmd = 'bash shell/download_virus_sm_alarm.sh ' + date 
+            self.cmd_exec(cmd)
+        else:
+            pw = self.dict_set['DatabasePWD']
+            s_n = self.dict_set['DatabaseServer']
+            db_n = self.dict_set['SmAlarmDbName']
+            u_n = self.dict_set['DatabaseUser']
+            tb_n = self.get_sm_alarm_tbname()
+            out_p = self.dict_set['RefDir'] + tb_n + '.csv'
+            cmd = 'bcp ' + db_n + '..' + tb_n + ' out ' + out_p + ' -U' + u_n + ' -P' + pw + ' -S' + s_n + ' -c -t\',\' -r\'\\n\''
+            self.cmd_exec(cmd)
 
     def get_setting(self):
         dict_set = {}
