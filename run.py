@@ -58,7 +58,7 @@ class Statistics(object):
         f = open(self.virus_alarm_path,'r')
         for line in f:
             v = line.strip().split(',')
-            if len(v) == 17:
+            if len(v) == 19:
                 md5 = v[12]
                 if md5 in v_apk_md5_list:
                     print md5 
@@ -80,7 +80,7 @@ class Statistics(object):
         f = open(self.virus_alarm_path,'r')
         for line in f:
             v = line.strip().split(',')
-            if len(v) == 17:
+            if len(v) == 19:
                 url = v[7]
                 ip = v[11]
                 url_ip_dict[url] = ip 
