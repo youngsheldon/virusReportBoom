@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-20 11:53:14
+# @Last Modified time: 2017-03-20 14:10:17
 import os 
 import commands 
 import sys
@@ -56,9 +56,10 @@ class Statistics(object):
         f = open(self.virus_alarm_path,'r')
         for line in f:
             v = line.strip().split(',')
-            md5 = v[12]
-            if md5 in v_apk_md5_list:
-                virus_sm_list.append(v)
+            if len(v) == 17:
+                md5 = v[12]
+                if md5 in v_apk_md5_list:
+                    virus_sm_list.append(v)
         f.close()
         return virus_sm_list 
 
@@ -74,9 +75,10 @@ class Statistics(object):
         f = open(self.virus_alarm_path,'r')
         for line in f:
             v = line.strip().split(',')
-            url = v[7]
-            ip = v[11]
-            url_ip_dict[url] = ip 
+            if len(v) == 17:
+                url = v[7]
+                ip = v[11]
+                url_ip_dict[url] = ip 
         f.close()
         return url_ip_dict
 
