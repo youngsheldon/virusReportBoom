@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-20 10:25:51
+# @Last Modified time: 2017-03-20 11:30:02
 import os 
 import commands 
 import sys
@@ -241,6 +241,10 @@ class Statistics(object):
         tb_n = 'virus_sm_alarm_' + st[0:6]
         return tb_n
 
+    def rm_blank_lines(self,path):
+        cmd = 'sed -i \'/^$/d\' ' + path 
+        self.cmd_exec(cmd)
+
     def bcp_load_apk_basic(self):
         db_version = self.dict_set['DatabaseVersion']
         if db_version == 'Oracle':
@@ -255,6 +259,7 @@ class Statistics(object):
             out_p = self.dict_set['RefDir'] + 'apk_basic_info.csv'
             cmd = 'bcp ' + db_n + '..' + tb_n + ' out ' + out_p + ' -U' + u_n + ' -P' + pw + ' -S' + s_n + ' -c -t\',\' -r\'\\n\''
             self.cmd_exec(cmd)
+        self.rm_blank_lines(self.apk_basic_info_path)
 
     def bcp_load_sm_alarm(self):
         date = self.dict_set['DateStart'][0:6]
@@ -271,6 +276,7 @@ class Statistics(object):
             out_p = self.dict_set['RefDir'] + tb_n + '.csv'
             cmd = 'bcp ' + db_n + '..' + tb_n + ' out ' + out_p + ' -U' + u_n + ' -P' + pw + ' -S' + s_n + ' -c -t\',\' -r\'\\n\''
             self.cmd_exec(cmd)
+        self.rm_blank_lines(self.virus_alarm_path)
 
     def get_setting(self):
         dict_set = {}
