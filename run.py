@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-20 17:25:52
+# @Last Modified time: 2017-03-22 11:53:56
 import os 
 import commands 
 import sys
@@ -21,7 +21,18 @@ class Statistics(object):
         self.apk_basic_info_path = self.dict_set['RefDir'] + 'apk_basic_info.csv'
         st = self.dict_set['DateStart']
         self.virus_alarm_path = self.dict_set['RefDir'] + 'virus_sm_alarm_' + st[0:6] + '.csv'
-    
+        self.time_section = self.dict_set['DateStart'] + '_' +self.dict_set['DateEnd'][6:]
+        self.city_dict = self.city_map()
+
+    def city_map(self):
+        city_dict = {}
+        f = open('conf/city_map.ini','r') 
+        for line in f:
+            v = line.strip().split(',')
+            city_dict[v[2]] = v[0] + v[1]
+        f.close()
+        return city_dict
+
     def get_virus_apk_md5(self):
         v_apk_md5_list = []
         f = open(self.apk_basic_info_path,'r')
@@ -103,7 +114,7 @@ class Statistics(object):
         out = 'URL' + ',' + '发送量' + ',' + 'IP' + ',' + 'IP归属地' + '\n'
         for k,v in url_dict.items():
             out += k + ',' + v[0] + ',' + v[1] + ',' + v[2] + '\n'
-        path = self.dict_set['ResultFile'] + 'ip_bl.csv'
+        path = self.dict_set['ResultFile'] + 'ip_bl_' + self.time_section + '.csv'
         f = open(path,'a+')
         f.write(out)
         f.close()
@@ -179,7 +190,7 @@ class Statistics(object):
             return ret[1]
 
     def w2f(self,content):
-        path = self.dict_set['ResultFile'] + self.dict_set['DateStart'] + '_' + self.dict_set['DateEnd'][-2:] + '.csv'
+        path = self.dict_set['ResultFile'] + 'ret_' +self.time_section + '.csv'
         if isinstance(content,list):
             f = open(path,'a+')
             out = ''
@@ -192,6 +203,11 @@ class Statistics(object):
             f = open(path,'a+')
             f.write(content)
             f.close()
+
+    def w2f2(self,path,content):
+        f = open(path,'a+')
+        f.write(content)
+        f.close()
 
     def get_virus_sm_src_c(self):
         cmd = 'cat ' + self.dict_set['VirusDir'] + ' | awk -F \',\' \'{print $9}\' | sort | uniq | wc -l'
@@ -293,6 +309,27 @@ class Statistics(object):
         self.bcp_load_sm_alarm()
         self.get_url_details()
         self.get_virus_sm_detail()
+
+    def virus_source_search(self):
+        #病毒溯源
+        out = '病毒溯源' + '\n'
+        path = self.dict_set['ResultFile'] + 'victim_' + self.time_section + '.csv'
+        v_url_list = self.get_virusUrl()
+        for url in v_url_list:
+            cmd = 'grep ' + url + ' ' + self.dict_set['VirusDir'] + ' -m 1 >> ' + self.dict_set['ResultFile'] + 'virus_source_' + self.time_section + '.csv'
+            self.cmd_exec(cmd)
+            cmd = 'grep ' + url + ' ' + self.dict_set['VirusDir'] + '| awk -F \',\' \'{print $14}\'| sort | uniq '
+            city_num_list = self.cmd_exec(cmd)
+            vs = city_num_list.strip().split('\n')
+            if len(vs) > 0:
+                out += url + '\n'
+                for v in vs:
+                    if self.city_dict.has_key(v):
+                        out += self.city_dict[v] + ','
+                    else:
+                        out += v + ','
+                out += '\n'
+        self.w2f2(path,out)
 
     def overall_profile(self):
         #总体概括
@@ -441,6 +478,7 @@ class Statistics(object):
         self.provin_sent()
         self.apk_belong()
         self.case_show()
+        self.virus_source_search()
 
 obj = Statistics()
 obj.clear_pass()
