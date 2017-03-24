@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-22 11:53:56
+# @Last Modified time: 2017-03-24 15:38:53
 import os 
 import commands 
 import sys
@@ -29,7 +29,7 @@ class Statistics(object):
         f = open('conf/city_map.ini','r') 
         for line in f:
             v = line.strip().split(',')
-            city_dict[v[2]] = v[0] + v[1]
+            city_dict[v[2]] = [v[0] + v[1],v[0]]
         f.close()
         return city_dict
 
@@ -322,10 +322,16 @@ class Statistics(object):
             city_num_list = self.cmd_exec(cmd)
             vs = city_num_list.strip().split('\n')
             if len(vs) > 0:
-                out += url + '\n'
+                out += url
                 for v in vs:
                     if self.city_dict.has_key(v):
-                        out += self.city_dict[v] + ','
+                        out += self.city_dict[v][0] + ','
+                    else:
+                        out += v + ','
+                out += '\n'
+                for v in vs:
+                    if self.city_dict.has_key(v):
+                        out += self.city_dict[v][1] + ','
                     else:
                         out += v + ','
                 out += '\n'
