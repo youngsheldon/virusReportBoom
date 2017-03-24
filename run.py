@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-24 15:38:53
+# @Last Modified time: 2017-03-24 19:47:30
 import os 
 import commands 
 import sys
@@ -312,6 +312,7 @@ class Statistics(object):
 
     def virus_source_search(self):
         #²¡¶¾ËÝÔ´
+        provin_list = []
         out = '²¡¶¾ËÝÔ´' + '\n'
         path = self.dict_set['ResultFile'] + 'victim_' + self.time_section + '.csv'
         v_url_list = self.get_virusUrl()
@@ -329,12 +330,18 @@ class Statistics(object):
                     else:
                         out += v + ','
                 out += '\n'
+                out += url
                 for v in vs:
                     if self.city_dict.has_key(v):
-                        out += self.city_dict[v][1] + ','
+                        pro_v = self.city_dict[v][1]
                     else:
-                        out += v + ','
+                        pro_v = v
+                    provin_list.append(pro_v)
+                provin_list = list(set(provin_list))
+                for v in provin_list:
+                    out += v + ','
                 out += '\n'
+            provin_list = []
         self.w2f2(path,out)
 
     def overall_profile(self):
