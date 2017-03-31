@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-24 19:47:30
+# @Last Modified time: 2017-03-24 20:07:40
 import os 
 import commands 
 import sys
@@ -323,14 +323,14 @@ class Statistics(object):
             city_num_list = self.cmd_exec(cmd)
             vs = city_num_list.strip().split('\n')
             if len(vs) > 0:
-                out += url
+                out += url + ','
                 for v in vs:
                     if self.city_dict.has_key(v):
                         out += self.city_dict[v][0] + ','
                     else:
                         out += v + ','
                 out += '\n'
-                out += url
+                out += url + ','
                 for v in vs:
                     if self.city_dict.has_key(v):
                         pro_v = self.city_dict[v][1]
