@@ -3,8 +3,10 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:23:28
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 17:44:59
+# @Last Modified time: 2017-04-05 18:03:04
 import sys 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 from module.sort import * 
 from module.operate import *
 from module.basic import * 

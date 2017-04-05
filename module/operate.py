@@ -30,7 +30,7 @@ def get_url_c():
 
 def apk_belong():
     url_dict = get_url_c()
-    out = 'URL' + ',' + 'å‘é€é‡' + ',' + 'IP' + ',' + 'IPå½’å±åœ°' + '\n'
+    out = 'URL' + ',' + '·¢ËÍÁ¿' + ',' + 'IP' + ',' + 'IP¹éÊôµØ' + '\n'
     for k,v in url_dict.items():
         out += k + ',' + v[0] + ',' + v[1] + ',' + v[2] + '\n'
     path = dict_set['ResultFile'] + 'ip_bl_' + time_section + '.csv'

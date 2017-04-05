@@ -3,15 +3,18 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:40:54
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 17:37:57
+# @Last Modified time: 2017-04-05 18:02:16
 from operate import * 
 from config import * 
 from basic import *
 
+type_dict = {1:'¸ÃÀàÓĞ³å»÷Á¦ºÍÓÕ»óÁ¦µÄ¶ÌĞÅÉæ¼°ÆÆ»µ¼ÒÍ¥µÄÄÚÈİ£¬ÈİÒ×´Ì¼¤ÓÃ»§µã»÷²¡¶¾Á´½Ó£¬µã»÷¸ÃÀà²¡¶¾Á´½Óºó»á×Ô¶¯×ª·¢²¡¶¾¶ÌĞÅ¸øÍ¨Ñ¶Â¼ÀïµÄÁªÏµÈË£¬¸ĞÈ¾ÆäËüÊÖ»úÓÃ»§£¬ĞÎ³ÉÉ¢·¢Ê½´«²¥·½Ê½¡£¿ÉÇÔÈ¡ÊÖ»úÉÏµÄÈ«²¿ĞÅÏ¢£¬°üÀ¨ÓÃ»§ÔÚÊÖ»úÉÏµÇÂ¼µÄÒøĞĞ¿¨ÕËºÅ¼°ÆäÃÜÂëºÍ¶ÌĞÅÏ¢£¬»¹¿ÉÀ¹½Ø²¢ÆÁ±ÎÕı³£¶ÌĞÅ£¬¿ªÆôºô½Ğ×ªÒÆ¡¢Èº·¢¶ÌĞÅµÈ£¬¶ÔÕÊºÅ¡¢×Ê½ğÔì³ÉÑÏÖØÍşĞ²¡£',2:'¸ÃÀàÓĞ³å»÷Á¦ºÍÓÕ»óÁ¦µÄ¶ÌĞÅÉæ¼°ÆÆ»µ¼ÒÍ¥µÄÄÚÈİ£¬ÈİÒ×´Ì¼¤ÓÃ»§µã»÷²¡¶¾Á´½Ó£¬µã»÷¸ÃÀà²¡¶¾Á´½Óºó»á×Ô¶¯×ª·¢²¡¶¾¶ÌĞÅ¸øÍ¨Ñ¶Â¼ÀïµÄÁªÏµÈË£¬¸ĞÈ¾ÆäËüÊÖ»úÓÃ»§£¬ĞÎ³ÉÉ¢·¢Ê½´«²¥·½Ê½¡£¿ÉÇÔÈ¡ÊÖ»úÉÏµÄÈ«²¿ĞÅÏ¢£¬°üÀ¨ÓÃ»§ÔÚÊÖ»úÉÏµÇÂ¼µÄÒøĞĞ¿¨ÕËºÅ¼°ÆäÃÜÂëºÍ¶ÌĞÅÏ¢£¬»¹¿ÉÀ¹½Ø²¢ÆÁ±ÎÕı³£¶ÌĞÅ£¬¿ªÆôºô½Ğ×ªÒÆ¡¢Èº·¢¶ÌĞÅµÈ£¬¶ÔÕÊºÅ¡¢×Ê½ğÔì³ÉÑÏÖØÍşĞ²¡£',3:'´ËÀàÕ©Æ­Ö÷ÒªÍ¨¹ıÄ£·ÂĞ£Ñ¶Í¨»òÃ°³ä½ÌÊ¦ÏòÑ§Éú¼Ò³¤·¢ËÍ¸öÈËÔÚĞ£Çé¿ö×ÊÁÏ¡¢ÍË·Ñ¡¢¿ª°ìÑ§Ï°°à£¬Ñ§ÉúÍ»·¢¼²²¡¾ÍÒ½µÈ·½Ê½ÏòÊÜº¦ÈËÊµÊ©Õ©Æ­£¬Í¨¹ıÇÔÈ¡ÊÖ»úÍ¨Ñ¶Â¼£¬À¹½Ø²¢×ª¶ÌĞÅ£¬ÇÔÈ¡ÊÖ»úÖ§¸¶ÑéÖ¤Âë£¬µÁË¢ÊÖ»úÒøĞĞ×Ê½ğ¡£',4:'´ËÀàÕ©Æ­Ö÷ÒªÍ¨¹ıÄ£·ÂÇ×ÅóºÃÓÑÏò±»½Ğ·¢ËÍ»éÑç¡¢ÉúÈÕÑçµÈÏ²ÑçÑûÇëµÈ·½Ê½ÏòÊÜº¦ÈËÊµÊ©Õ©Æ­£¬Í¨¹ıÇÔÈ¡ÊÖ»úÍ¨Ñ¶Â¼£¬À¹½Ø²¢×ª¶ÌĞÅ£¬ÇÔÈ¡ÊÖ»úÖ§¸¶ÑéÖ¤Âë£¬µÁË¢ÊÖ»úÒøĞĞ×Ê½ğ¡£',5:'ÓÃ»§µã»÷¸Ã²¡¶¾ÍøÖ·ºó£¬»á±»À¹½Ø²¢×ª·¢¶ÌĞÅ£¬ÇÔÈ¡¶ÌĞÅ¼ÇÂ¼¡¢ÊÖ»úÍ¨ĞÅÂ¼µÈ¸÷ÖÖÓÃ»§¸öÈËĞÅÏ¢',6:'´ı¶¨'}
+virus_type = {1:'ÊÓÆµ',2:'Ïà²á',3:'Ğ£Ñ¶Í¨',4:'Ï²ÑçÇëÌû',5:'ÓÊ¼şÀà',6:'´ı¶¨'}
+
 def virus_source_search():
-    #ç—…æ¯’æº¯æº
+    #²¡¶¾ËİÔ´
     provin_list = []
-    out = 'ç—…æ¯’æº¯æº' + '\n'
+    out = '²¡¶¾ËİÔ´' + '\n'
     path = dict_set['ResultFile'] + 'victim_' + time_section + '.csv'
     v_url_list = get_virusUrl()
     for url in v_url_list:
@@ -42,35 +45,35 @@ def virus_source_search():
     w2f2(path,out)
 
 def overall_profile():
-    #æ€»ä½“æ¦‚æ‹¬
+    #×ÜÌå¸ÅÀ¨
     url_like_sm_c = get_count(dict_set['TarDir'] + '*')
     print 'url_like_sm_c=' + str(url_like_sm_c)
     virus_sm_c = get_count(dict_set['VirusDir'])
     print 'virus_sm_c=' + virus_sm_c
     virus_sm_reject_c = get_count(dict_set['VirusDir'] + ' | grep REJECT ')
     print 'virus_sm_reject_c=' + str(virus_sm_reject_c)
-    out = 'æ€»ä½“æ¦‚æ‹¬' + '\n'
-    out += 'å¸¦æœ‰ç½‘å€æˆ–ç½‘å€å½¢æ€çš„çŸ­ä¿¡æ€»é‡,' + 'ç—…æ¯’çŸ­ä¿¡æ€»é‡,' + 'å¯æ‹¦æˆªé‡' + '\n'
+    out = '×ÜÌå¸ÅÀ¨' + '\n'
+    out += '´øÓĞÍøÖ·»òÍøÖ·ĞÎÌ¬µÄ¶ÌĞÅ×ÜÁ¿,' + '²¡¶¾¶ÌĞÅ×ÜÁ¿,' + '¿ÉÀ¹½ØÁ¿' + '\n'
     out += str(url_like_sm_c) +',' +str(virus_sm_c) + ','+ str(virus_sm_reject_c) + '\n\n'
     w2f(out)
 
 def operator_distribution():
-    #ç—…æ¯’çŸ­ä¿¡å„è¿è¥å•†åˆ†å¸ƒ
+    #²¡¶¾¶ÌĞÅ¸÷ÔËÓªÉÌ·Ö²¼
     telecom,mobile,unicom = get_phone_num_belong()
     print 'telecom=' + str(telecom)
     print 'mobile=' + str(mobile)
     print 'unicom=' + str(unicom)
-    out = 'ç—…æ¯’çŸ­ä¿¡å„è¿è¥å•†åˆ†å¸ƒ' + '\n'
-    out += 'ç”µä¿¡' + ',' + 'ç§»åŠ¨' + ',' + 'è”é€š' + '\n'
+    out = '²¡¶¾¶ÌĞÅ¸÷ÔËÓªÉÌ·Ö²¼' + '\n'
+    out += 'µçĞÅ' + ',' + 'ÒÆ¶¯' + ',' + 'ÁªÍ¨' + '\n'
     out += str(telecom) + ',' + str(mobile) + ',' + str(unicom) + '\n\n'
     w2f(out)
 
 def timeinterval_send():
-    #å„æ—¶é—´æ®µç—…æ¯’çŸ­ä¿¡å‘é€é‡åˆ†å¸ƒ
+    #¸÷Ê±¼ä¶Î²¡¶¾¶ÌĞÅ·¢ËÍÁ¿·Ö²¼
     t_dev_list = get_timeinterval_count()        
     print 'timeinterval'
     print t_dev_list 
-    out = 'å„æ—¶é—´æ®µç—…æ¯’çŸ­ä¿¡å‘é€é‡åˆ†å¸ƒ' + '\n'
+    out = '¸÷Ê±¼ä¶Î²¡¶¾¶ÌĞÅ·¢ËÍÁ¿·Ö²¼' + '\n'
     for i in range(0,24):
         out += str(i) + ','
     out += '\n'
@@ -80,19 +83,19 @@ def timeinterval_send():
     w2f(out)
 
 def src_sum():
-    #ç—…æ¯’çŸ­ä¿¡æŒ‰ä¸»å«å»é‡æ€»æ•°
+    #²¡¶¾¶ÌĞÅ°´Ö÷½ĞÈ¥ÖØ×ÜÊı
     v_sms_src_c = get_virus_sm_src_c()
     print 'v_sms_src_c=' + str(v_sms_src_c) 
-    out = 'ç—…æ¯’çŸ­ä¿¡æŒ‰ä¸»å«å»é‡æ€»æ•°' + '\n'
+    out = '²¡¶¾¶ÌĞÅ°´Ö÷½ĞÈ¥ÖØ×ÜÊı' + '\n'
     out += str(v_sms_src_c) + '\n\n'
     w2f(out)
 
 def phonenum_top6():
-    #ç—…æ¯’çŸ­ä¿¡å‰6å·æ®µ
+    #²¡¶¾¶ÌĞÅÇ°6ºÅ¶Î
     nub_list = get_v_src_top6()
     print 'nub_list'
     print nub_list 
-    out = 'ç—…æ¯’çŸ­ä¿¡å‰6å·æ®µ' + '\n'
+    out = '²¡¶¾¶ÌĞÅÇ°6ºÅ¶Î' + '\n'
     vs = nub_list.strip().split('\n')
     for v in vs:
         out += v + ','
@@ -100,12 +103,12 @@ def phonenum_top6():
     w2f(out)
 
 def provin_sent():
-    #å„è¿è¥å•†ç—…æ¯’çŸ­ä¿¡çœå†…å¤–å‘é€é‡å æ¯”
+    #¸÷ÔËÓªÉÌ²¡¶¾¶ÌĞÅÊ¡ÄÚÍâ·¢ËÍÁ¿Õ¼±È
     provin_take_list = get_provin_proportion()
     print 'provin_take_list'
     print provin_take_list 
-    out = 'å„è¿è¥å•†ç—…æ¯’çŸ­ä¿¡çœå†…å¤–å‘é€é‡å æ¯”' + '\n'
-    out += 'ç”µä¿¡çœå†…,' + 'ç”µä¿¡çœå¤–,' + 'ç§»åŠ¨çœå†…,' + 'ç§»åŠ¨çœå¤–,' + 'è”é€šçœå†…,' + 'è”é€šçœå¤–,' + '\n'
+    out = '¸÷ÔËÓªÉÌ²¡¶¾¶ÌĞÅÊ¡ÄÚÍâ·¢ËÍÁ¿Õ¼±È' + '\n'
+    out += 'µçĞÅÊ¡ÄÚ,' + 'µçĞÅÊ¡Íâ,' + 'ÒÆ¶¯Ê¡ÄÚ,' + 'ÒÆ¶¯Ê¡Íâ,' + 'ÁªÍ¨Ê¡ÄÚ,' + 'ÁªÍ¨Ê¡Íâ,' + '\n'
     for v in provin_take_list:
         out += str(v) + ','
     out += '\n'
@@ -122,23 +125,23 @@ def provin_sent():
     w2f(out)
 
 def virus_type_sort():
-    cmd = 'cat ' + dict_set['VirusDir'] + ' | grep -E \'è§†é¢‘|å½•ç›¸|å½•åƒ|è§†å±\'' + ' | wc -l' 
-    cmd2 = 'cat ' + dict_set['VirusDir'] + ' | grep -vE \'è§†é¢‘|å½•ç›¸|å½•åƒ|è§†å±\'' +  ' | grep -E \'çœ‹|ç§|ç…\'' + ' | wc -l'
+    cmd = 'cat ' + dict_set['VirusDir'] + ' | grep -E \'ÊÓÆµ|Â¼Ïà|Â¼Ïñ|ÊÓÆÁ\'' + ' | wc -l' 
+    cmd2 = 'cat ' + dict_set['VirusDir'] + ' | grep -vE \'ÊÓÆµ|Â¼Ïà|Â¼Ïñ|ÊÓÆÁ\'' +  ' | grep -E \'¿´|ÇÆ|³ò\'' + ' | wc -l'
     cmd3 = 'cat ' + dict_set['VirusDir'] + ' | wc -l'
-    video_type = int(.exec_shell_scrip(cmd))
-    photo_type = int(.exec_shell_scrip(cmd2))
-    all_type = int(.exec_shell_scrip(cmd3))
+    video_type = int(exec_shell_scrip(cmd))
+    photo_type = int(exec_shell_scrip(cmd2))
+    all_type = int(exec_shell_scrip(cmd3))
     other_type = all_type - video_type - photo_type 
     v_t = float(1.0 * video_type/all_type)
     p_t = float(1.0 * photo_type/all_type)
     o_t = float(1.0 * other_type/all_type)
-    out = 'å„ç±»ç—…æ¯’çŸ­ä¿¡å æ¯”æƒ…å†µ' + '\n'
-    out += 'è§†é¢‘ç±»,' + 'ç›¸å†Œç±»,' + 'å…¶å®ƒç±»,' + '\n' 
+    out = '¸÷Àà²¡¶¾¶ÌĞÅÕ¼±ÈÇé¿ö' + '\n'
+    out += 'ÊÓÆµÀà,' + 'Ïà²áÀà,' + 'ÆäËüÀà,' + '\n' 
     out += str(video_type) + ',' + str(photo_type) + ',' + str(other_type) + '\n'
     out += str(v_t) + ',' + str(p_t) + ',' + str(o_t) + '\n\n'
     w2f(out)
 
-def virus_case_detail(,tar,type):
+def virus_case_detail(tar,type):
     ip_dict = get_ip_map()
     cmd ='cat ' + dict_set['VirusDir'] + ' | ' + tar + ' | tail -1 | awk -F \',\' \'{print $4}\''
     url = cmd_exec(cmd)
@@ -154,13 +157,13 @@ def virus_case_detail(,tar,type):
     return [virus_type[type],url,sms,type_dict[type],ip,ip_bl]
 
 def case_show():
-    v_cmd = 'grep -E \'è§†é¢‘|å½•ç›¸|å½•åƒ|è§†å±\''
+    v_cmd = 'grep -E \'ÊÓÆµ|Â¼Ïà|Â¼Ïñ|ÊÓÆÁ\''
     v_type = virus_case_detail(v_cmd,2)
-    p_cmd = 'grep -vE \'è§†é¢‘|å½•ç›¸|å½•åƒ|è§†å±\'' +  ' | grep -E \'çœ‹|ç§|ç…\''
+    p_cmd = 'grep -vE \'ÊÓÆµ|Â¼Ïà|Â¼Ïñ|ÊÓÆÁ\'' +  ' | grep -E \'¿´|ÇÆ|³ò\''
     p_type = virus_case_detail(p_cmd,1)
-    o_cmd = 'grep -vE \'è§†é¢‘|å½•ç›¸|å½•åƒ|è§†å±|çœ‹|ç§|ç…\''
+    o_cmd = 'grep -vE \'ÊÓÆµ|Â¼Ïà|Â¼Ïñ|ÊÓÆÁ|¿´|ÇÆ|³ò\''
     o_type = virus_case_detail(o_cmd,6)
-    out = 'ç—…æ¯’ç±»å‹' + ',' + 'ç—…æ¯’é“¾æ¥' + ',' + 'ç—…æ¯’çŸ­ä¿¡ç¤ºä¾‹' + 'æ¶æ„è¡Œä¸ºæè¿°' + ',' + 'IPåœ°å€' + ',' + 'IPå½’å±åœ°' + '\n'
+    out = '²¡¶¾ÀàĞÍ' + ',' + '²¡¶¾Á´½Ó' + ',' + '²¡¶¾¶ÌĞÅÊ¾Àı' + '¶ñÒâĞĞÎªÃèÊö' + ',' + 'IPµØÖ·' + ',' + 'IP¹éÊôµØ' + '\n'
     w2f(out)
     w2f(v_type)
     w2f(p_type)

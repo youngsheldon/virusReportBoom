@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:26:36
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 17:25:19
+# @Last Modified time: 2017-04-05 17:55:05
 import commands 
 from config import * 
 
@@ -68,7 +68,7 @@ def get_url_map():
     f.close()
     return url_ip_dict
 
- def set_date():
+def set_date():
     date_list = []
     st = dict_set['DateStart']
     ed = dict_set['DateEnd']
