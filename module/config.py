@@ -7,7 +7,7 @@
 
 def get_setting():
     dict_set = {}
-    f = open('../conf/setting.conf')
+    f = open('conf/setting.conf')
     for line in f:
         v = line.strip().split('=')
         if len(v) > 1:
@@ -17,10 +17,11 @@ def get_setting():
     
 def city_map():
     city_dict = {}
-    f = open('../conf/setting.conf','r') 
+    f = open('conf/setting.conf') 
     for line in f:
         v = line.strip().split(',')
-        city_dict[v[2]] = [v[0] + v[1],v[0]]
+	if len(v) == 3:
+        	city_dict[v[2]] = [v[0] + v[1],v[0]]
     f.close()
     return city_dict
 

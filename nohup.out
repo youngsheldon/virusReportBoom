@@ -1,0 +1,46 @@
+sh: data_sort/raw_data/url_detail_20170301000901_192.168.133.32_000: Permission denied
+sh: data_sort/raw_data/url_detail_20170301000901_192.168.133.32_000: Permission denied
+sh: c: command not found
+sh: data_sort/raw_data/url_detail_20170301000901_192.168.133.32_000: Permission denied
+begin to run.......
+url_like_sm_c=225890
+virus_sm_c=6323
+virus_sm_reject_c=1572
+telecom=3601
+mobile=1522
+unicom=1200
+timeinterval
+['108', '56', '8', '38', '14', '4', '160', '535', '340', '341', '153', '216', '211', '526', '618', '222', '257', '159', '288', '456', '345', '112', '367', '789']
+v_sms_src_c=663
+nub_list
+1897
+1707
+1534
+1817
+1777
+1397
+provin_take_list
+['3406', '195', '1105', '417', '312', '888']
+sh: data_sort/raw_data/url_detail_20170301000901_192.168.133.32_000: Permission denied
+sh: data_sort/raw_data/url_detail_20170301000901_192.168.133.32_000: Permission denied
+sh: c: command not found
+sh: data_sort/raw_data/url_detail_20170301000901_192.168.133.32_000: Permission denied
+begin to run.......
+url_like_sm_c=225890
+virus_sm_c=6323
+virus_sm_reject_c=1572
+telecom=3601
+mobile=1522
+unicom=1200
+timeinterval
+['108', '56', '8', '38', '14', '4', '160', '535', '340', '341', '153', '216', '211', '526', '618', '222', '257', '159', '288', '456', '345', '112', '367', '789']
+v_sms_src_c=663
+nub_list
+1897
+1707
+1534
+1817
+1777
+1397
+provin_take_list
+['3406', '195', '1105', '417', '312', '888']

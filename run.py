@@ -500,4 +500,3 @@ if sys.argv[1] == 'run':
     obj.run()
 else:
     print 'clear done!!!'
-obj.clear_pass()

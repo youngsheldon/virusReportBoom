@@ -10,6 +10,7 @@ sys.setdefaultencoding('utf-8')
 from module.sort import * 
 from module.operate import *
 from module.basic import * 
+from module.db import *
 
 def load_data():
     bcp_load_apk_basic()
@@ -36,4 +37,3 @@ if sys.argv[1] == 'run':
     run()
 else:
     print 'clear done!!!'
-clear_pass()
