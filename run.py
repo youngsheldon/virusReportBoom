@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 10:52:47
+# @Last Modified time: 2017-04-05 11:14:02
 import os 
 import commands 
 import sys
@@ -329,8 +329,7 @@ class Statistics(object):
                         out += self.city_dict[v][0] + ','
                     else:
                         out += v + ','
-                out += '\n'
-                out += url + ','
+                out += '|'
                 for v in vs:
                     if self.city_dict.has_key(v):
                         pro_v = self.city_dict[v][1]
