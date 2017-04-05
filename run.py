@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-03-02 09:53:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-03-24 20:07:40
+# @Last Modified time: 2017-04-05 10:52:47
 import os 
 import commands 
 import sys
@@ -501,3 +501,4 @@ if sys.argv[1] == 'run':
     obj.run()
 else:
     print 'clear done!!!'
+obj.clear_pass()
