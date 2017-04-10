@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:23:28
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 18:03:04
+# @Last Modified time: 2017-04-10 16:36:25
 import sys 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -11,6 +11,7 @@ from module.sort import *
 from module.operate import *
 from module.basic import * 
 from module.db import *
+from module.config import * 
 
 def load_data():
     bcp_load_apk_basic()
@@ -18,22 +19,10 @@ def load_data():
     get_url_details()
     get_virus_sm_detail()
 
-def run():
-    overall_profile()
-    operator_distribution()
-    timeinterval_send()
-    src_sum()
-    phonenum_top6()
-    virus_type_sort()
-    provin_sent()
-    apk_belong()
-    case_show()
-    virus_source_search()
-
 clear_pass()
 if sys.argv[1] == 'run':
     print 'begin to run.......'
     load_data()
-    run()
+    report_generator()
 else:
     print 'clear done!!!'

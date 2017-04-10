@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:31:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 17:32:05
+# @Last Modified time: 2017-04-10 16:15:07
 from basic import *
 from config import * 
 import commands
@@ -28,16 +28,6 @@ def get_url_c():
             ip_bl = 'unknow'
         url_dict[url] = (v_c,ip,ip_bl)
     return url_dict 
-
-def apk_belong():
-    url_dict = get_url_c()
-    out = 'URL' + ',' + '∑¢ÀÕ¡ø' + ',' + 'IP' + ',' + 'IPπÈ Ùµÿ' + '\n'
-    for k,v in url_dict.items():
-        out += k + ',' + v[0] + ',' + v[1] + ',' + v[2] + '\n'
-    path = dict_set['ResultFile'] + 'ip_bl_' + time_section + '.csv'
-    f = open(path,'a+')
-    f.write(out)
-    f.close()
 
 def get_url_details():
     date_list = set_date()
@@ -114,3 +104,4 @@ def get_provin_proportion():
         cmd_uni_out = provin_take('out',10,st,ed)
     cmds =[cmd_tele_in,cmd_tele_out,cmd_mobi_in,cmd_mobi_out,cmd_uni_in,cmd_uni_out]
     return cmd_exec(cmds)
+    

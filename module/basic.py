@@ -3,8 +3,10 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:26:36
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 17:55:05
+# @Last Modified time: 2017-04-10 16:34:16
 import commands 
+import time 
+import datetime 
 from config import * 
 
 apk_basic_info_path = dict_set['RefDir'] + 'apk_basic_info.csv'
@@ -68,25 +70,37 @@ def get_url_map():
     f.close()
     return url_ip_dict
 
+def get_yesterday():
+    today = datetime.date.today()
+    yesterday = today - datetime.timedelta(days=12)
+    date = str(yesterday).split('-')
+    return date[0] + date[1] + date[2]
+
 def set_date():
+    mode = dict_set['RunMode']
     date_list = []
-    st = dict_set['DateStart']
-    ed = dict_set['DateEnd']
-    st_v = int(st[6]) * 10 + int(st[7])
-    ed_v = int(ed[6]) * 10 + int(ed[7])
-    for index in range(st_v,ed_v):
-        if index < 10:
-            v = 'url_detail_' + st[0:6] + '0' + str(index) + '*'
-            date_list.append(v)
-        else:
-            v = 'url_detail_' + st[0:6] + str(index) + '*'
-            date_list.append(v)
-    if ed_v < 10:
-        v = 'url_detail_' + st[0:6] + '0' + str(ed_v) + '*'
+    if mode == 'DAY':
+        yesterday = get_yesterday()
+        v = 'url_detail_' + yesterday + '*'
         date_list.append(v)
     else:
-        v = 'url_detail_' + st[0:6] + str(ed_v) + '*'
-        date_list.append(v)
+        st = dict_set['DateStart']
+        ed = dict_set['DateEnd']
+        st_v = int(st[6]) * 10 + int(st[7])
+        ed_v = int(ed[6]) * 10 + int(ed[7])
+        for index in range(st_v,ed_v):
+            if index < 10:
+                v = 'url_detail_' + st[0:6] + '0' + str(index) + '*'
+                date_list.append(v)
+            else:
+                v = 'url_detail_' + st[0:6] + str(index) + '*'
+                date_list.append(v)
+        if ed_v < 10:
+            v = 'url_detail_' + st[0:6] + '0' + str(ed_v) + '*'
+            date_list.append(v)
+        else:
+            v = 'url_detail_' + st[0:6] + str(ed_v) + '*'
+            date_list.append(v)
     return date_list 
 
 def get_count(path):
@@ -145,3 +159,6 @@ def exec_shell_scrip(cmd):
 def clear_pass():
     cmd = 'rm ' + dict_set['TarDir'] + '* ' + dict_set['RefDir'] + '* ' + dict_set['VirusDir'] 
     cmd_exec(cmd)
+
+def get_datetime():
+    return time.strftime('%Y-%m-%d',time.localtime(time.time()))

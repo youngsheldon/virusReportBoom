@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:13:52
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-05 17:24:30
+# @Last Modified time: 2017-04-10 16:42:52
 import os 
 from basic import *
 from config import * 
@@ -35,7 +35,12 @@ def bcp_load_apk_basic():
     rm_blank_lines(apk_basic_info_path)
 
 def bcp_load_sm_alarm():
-    date = dict_set['DateStart'][0:6]
+    mode = dict_set['RunMode']
+    if mode == 'DAY':
+        yesterday = get_yesterday()
+        date = yesterday[0:6]
+    else:
+        date = dict_set['DateStart'][0:6]
     db_version = dict_set['DatabaseVersion']
     if db_version == 'Oracle':
         cmd = 'bash shell/download_virus_sm_alarm.sh ' + date 
