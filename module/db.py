@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:13:52
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-10 16:42:52
+# @Last Modified time: 2017-04-11 11:41:55
 import os 
 from basic import *
 from config import * 
@@ -37,8 +37,8 @@ def bcp_load_apk_basic():
 def bcp_load_sm_alarm():
     mode = dict_set['RunMode']
     if mode == 'DAY':
-        yesterday = get_yesterday()
-        date = yesterday[0:6]
+        today = get_today()
+        date = today[0:6]
     else:
         date = dict_set['DateStart'][0:6]
     db_version = dict_set['DatabaseVersion']

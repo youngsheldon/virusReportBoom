@@ -3,16 +3,22 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:26:36
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-10 16:34:16
+# @Last Modified time: 2017-04-11 19:03:01
 import commands 
 import time 
 import datetime 
 from config import * 
 
+mode = dict_set['RunMode']
+if mode == 'DAY':
+    virus_alarm_path = dict_set['RefDir'] + 'virus_sm_alarm_' + yesterday[0:6] + '.csv'
+    time_section = yesterday[0:6]
+else:
+    st = dict_set['DateStart']
+    virus_alarm_path = dict_set['RefDir'] + 'virus_sm_alarm_' + st[0:6] + '.csv'
+    time_section = dict_set['DateStart'] + '_' +dict_set['DateEnd'][6:]
+
 apk_basic_info_path = dict_set['RefDir'] + 'apk_basic_info.csv'
-st = dict_set['DateStart']
-virus_alarm_path = dict_set['RefDir'] + 'virus_sm_alarm_' + st[0:6] + '.csv'
-time_section = dict_set['DateStart'] + '_' +dict_set['DateEnd'][6:]
 
 def get_virus_apk_md5():
     v_apk_md5_list = []
@@ -70,11 +76,7 @@ def get_url_map():
     f.close()
     return url_ip_dict
 
-def get_yesterday():
-    today = datetime.date.today()
-    yesterday = today - datetime.timedelta(days=12)
-    date = str(yesterday).split('-')
-    return date[0] + date[1] + date[2]
+
 
 def set_date():
     mode = dict_set['RunMode']
