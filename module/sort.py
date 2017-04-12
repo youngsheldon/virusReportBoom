@@ -3,10 +3,11 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:40:54
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-11 19:14:46
+# @Last Modified time: 2017-04-12 14:57:01
 from operate import * 
 from config import * 
 from basic import *
+from db import * 
 
 type_dict = {1:'该类有冲击力和诱惑力的短信涉及破坏家庭的内容，容易刺激用户点击病毒链接，点击该类病毒链接后会自动转发病毒短信给通讯录里的联系人，感染其它手机用户，形成散发式传播方式。可窃取手机上的全部信息，包括用户在手机上登录的银行卡账号及其密码和短信息，还可拦截并屏蔽正常短信，开启呼叫转移、群发短信等，对帐号、资金造成严重威胁。',2:'该类有冲击力和诱惑力的短信涉及破坏家庭的内容，容易刺激用户点击病毒链接，点击该类病毒链接后会自动转发病毒短信给通讯录里的联系人，感染其它手机用户，形成散发式传播方式。可窃取手机上的全部信息，包括用户在手机上登录的银行卡账号及其密码和短信息，还可拦截并屏蔽正常短信，开启呼叫转移、群发短信等，对帐号、资金造成严重威胁。',3:'此类诈骗主要通过模仿校讯通或冒充教师向学生家长发送个人在校情况资料、退费、开办学习班，学生突发疾病就医等方式向受害人实施诈骗，通过窃取手机通讯录，拦截并转短信，窃取手机支付验证码，盗刷手机银行资金。',4:'此类诈骗主要通过模仿亲朋好友向被叫发送婚宴、生日宴等喜宴邀请等方式向受害人实施诈骗，通过窃取手机通讯录，拦截并转短信，窃取手机支付验证码，盗刷手机银行资金。',5:'用户点击该病毒网址后，会被拦截并转发短信，窃取短信记录、手机通信录等各种用户个人信息',6:'待定'}
 virus_type = {1:'视频',2:'相册',3:'校讯通',4:'喜宴请帖',5:'邮件类',6:'待定'}
@@ -59,7 +60,7 @@ def overall_profile():
     out += '带有网址或网址形态的短信总量,' + '病毒短信总量,' + '可拦截量' + '\n'
     out += str(url_like_sm_c) +',' +str(virus_sm_c) + ','+ str(virus_sm_reject_c) + '\n\n'
     w2f(out)
-    return url_like_sm_c,virus_sm_c,virus_sm_reject_c
+    return int(url_like_sm_c),int(virus_sm_c),int(virus_sm_reject_c)
 
 def operator_distribution():
     #病毒短信各运营商分布
@@ -82,7 +83,7 @@ def timeinterval_send():
         out += str(i) + ','
     out += '\n'
     for v in t_dev_list:
-        out += v + ','
+        out += str(v) + ','
     out += '\n\n'
     w2f(out)
     return t_dev_list
@@ -94,7 +95,13 @@ def src_sum():
     out = '病毒短信按主叫去重总数' + '\n'
     out += str(v_sms_src_c) + '\n\n'
     w2f(out)
-    return v_sms_src_c
+    return int(v_sms_src_c)
+
+def handle_null_seg(seg_list):
+    tmp_list = ['0000','0000','0000','0000','0000','0000']
+    for i in range(0,len(seg_list)):
+        tmp_list[i] = seg_list[i] 
+    return tmp_list
 
 def phonenum_top6():
     #病毒短信前6号段
@@ -107,7 +114,7 @@ def phonenum_top6():
         out += v + ','
     out += '\n\n'
     w2f(out)
-    return vs 
+    return handle_null_seg(vs) 
 
 def provin_sent():
     #各运营商病毒短信省内外发送量占比
@@ -122,12 +129,12 @@ def provin_sent():
     pl = []
     for v in provin_take_list:
         pl.append(int(v))
-    v1 = str(float(1.0*pl[0]/(pl[0] + pl[1]))) + ','
-    v2 = str(float(1.0*pl[1]/(pl[0] + pl[1]))) + ','
-    v3 = str(float(1.0*pl[2]/(pl[2] + pl[3]))) + ','
-    v4 = str(float(1.0*pl[3]/(pl[2] + pl[3]))) + ','
-    v5 = str(float(1.0*pl[4]/(pl[4] + pl[5]))) + ','
-    v6 = str(float(1.0*pl[5]/(pl[4] + pl[5]))) + '\n'
+    v1 = str(divi(pl[0],pl[1])) + ','
+    v2 = str(divi(pl[1],pl[0])) + ','
+    v3 = str(divi(pl[2],pl[3])) + ','
+    v4 = str(divi(pl[3],pl[2])) + ','
+    v5 = str(divi(pl[4],pl[5])) + ','
+    v6 = str(divi(pl[5],pl[4])) + '\n'
     out += v1 + v2 + v3 + v4 + v5 + v6 + '\n'
     w2f(out)
     return provin_take_list 
@@ -150,15 +157,13 @@ def virus_type_sort():
     w2f(out)
     return video_type,photo_type,other_type
 
-
 def virus_case_detail(tar,type):
     ip_dict = get_ip_map()
     cmd ='cat ' + dict_set['VirusDir'] + ' | ' + tar + ' | tail -1 | awk -F \',\' \'{print $4}\''
     url = cmd_exec(cmd)
     cmd ='cat ' + dict_set['VirusDir'] + ' | ' + tar + ' | tail -1 | awk -F \',\' \'{print $19}\''
     sms = cmd_exec(cmd) + url 
-    sm_alarm_path = dict_set['RefDir'] + 'virus_sm_alarm_' + dict_set['DateStart'][0:6] + '.csv'
-    cmd = 'cat ' + sm_alarm_path + ' | grep ' + url + ' | awk -F \',\' \'{print $12}\' | tail -1'
+    cmd = 'cat ' + virus_alarm_path + ' | grep ' + url + ' | awk -F \',\' \'{print $12}\' | tail -1'
     ip = cmd_exec(cmd)
     if ip_dict.has_key(ip):
         ip_bl = ip_dict[ip]
@@ -168,9 +173,9 @@ def virus_case_detail(tar,type):
 
 def case_show():
     v_cmd = 'grep -E \'视频|录相|录像|视屏\''
-    v_type = virus_case_detail(v_cmd,2)
+    v_type = virus_case_detail(v_cmd,1)
     p_cmd = 'grep -vE \'视频|录相|录像|视屏\'' +  ' | grep -E \'看|瞧|瞅\''
-    p_type = virus_case_detail(p_cmd,1)
+    p_type = virus_case_detail(p_cmd,2)
     o_cmd = 'grep -vE \'视频|录相|录像|视屏|看|瞧|瞅\''
     o_type = virus_case_detail(o_cmd,6)
     out = '病毒类型' + ',' + '病毒链接' + ',' + '病毒短信示例' + '恶意行为描述' + ',' + 'IP地址' + ',' + 'IP归属地' + '\n'
@@ -194,12 +199,12 @@ def apk_belong():
 def summarize():
     url_like_count, virus_sum_count, reject_sum_count = overall_profile()
     vl = provin_sent()
-    tele_in_count = vl[0]
-    tele_out_count = vl[1]
-    mobile_in_count = vl[2]
-    mobile_out_count = vl[3]
-    union_in_count = vl[4]
-    union_out_count = vl[5]
+    tele_in_count = int(vl[0])
+    tele_out_count = int(vl[1])
+    mobile_in_count = int(vl[2])
+    mobile_out_count = int(vl[3])
+    union_in_count = int(vl[4])
+    union_out_count = int(vl[5])
     src_uniq_count = src_sum()
     video_type_count, album_type_count, other_type_count = virus_type_sort()
     sql = 'insert into virus_report_summarize(date_time,url_like_count,virus_sum_count,reject_sum_count,tele_in_count,tele_out_count,mobile_in_count,mobile_out_count,union_in_count,union_out_count,src_uniq_count,video_type_count,album_type_count,other_type_count) values(to_date(' + '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);' % (url_like_count,virus_sum_count,reject_sum_count,tele_in_count,tele_out_count,mobile_in_count,mobile_out_count,union_in_count,union_out_count,src_uniq_count,video_type_count,album_type_count,other_type_count)
@@ -212,32 +217,34 @@ def virus_period_send():
 
 def src_segment_top6():
     vl = phonenum_top6()
-    sql = 'insert into src_segment_top6(date_time,\'seg0\',\'seg1\',\'seg2\',\'seg3\',\'seg4\',\'seg5\') values(to_date(' + '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',%s,%s,%s,%s,%s,%s);' % (vl[0],vl[1],vl[2],vl[3],vl[4],vl[5])
+    sql = 'insert into src_segment_top6(date_time,seg0,seg1,seg2,seg3,seg4,seg5) values(to_date(' + '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\');' % (vl[0],vl[1],vl[2],vl[3],vl[4],vl[5])
     sql_exec(sql)
 
-def virus_type_insert(t_list):
-    sql = 'insert into virus_type_example(date_time,type,url,sm_text,ip,ip_attribution) values(to_date(' +  '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',%d,\'%s\',\'%s\',\'%s\',\'%s\');' % (int(t_list[0]),t_list[1],t_list[2],t_list[4],t_list[5])
+def virus_type_insert(t_list,type):
+    sql = 'insert into virus_type_example(date_time,type,url,sm_text,ip,ip_attribution) values(to_date(' +  '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',%d,\'%s\',\'%s\',\'%s\',\'%s\');' % (type,t_list[1],t_list[2],t_list[4],t_list[5])
     sql_exec(sql)
 
 def virus_type_example():
     v_l, v_p,o_l = case_show()
-    virus_type_insert(v_l)
-    virus_type_insert(v_p)
-    virus_type_insert(o_l)
+    virus_type_insert(v_l,1)
+    virus_type_insert(v_p,2)
+    virus_type_insert(o_l,6)
 
 def url_ip_relate():
     url_dict = apk_belong()
     for k,v in url_dict.items():
         if int(v[0]) > 0:
-            sql = 'insert into url_ip_relate(date_time,url,send_count,ip,ip_attribution) values(to_date' + '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',\'%s\',%d,\'%s\',\'%s\');' % (k,int(v[0]),v[1],v[2])
+            sql = 'insert into url_ip_relate(date_time,url,send_count,ip,ip_attribution) values(to_date(' + '\'' + get_datetime() + '\'' + ',\'YYYY-MM-DD\')' + ',\'%s\',%d,\'%s\',\'%s\');' % (k,int(v[0]),v[1],v[2])
+            print sql 
             sql_exec(sql)
     
 def victim_distribution():
     victim_dict = virus_source_search()
     for url,city_list in victim_dict.items():
         for city in city_list:
-            sql = 'call sp_vir_victim_distribution(\'%s\',\'%s\');' % (url,city)
-            sql_exec(sql)
+            if len(city) > 2:
+                sql = 'call sp_vir_victim_distribution(\'%s\',\'%s\');' % (url,city)
+                sql_exec(sql)
 
 def virus_source_sqls(path):
     sql_list = []

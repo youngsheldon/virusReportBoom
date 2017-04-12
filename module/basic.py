@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:26:36
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-11 19:03:01
+# @Last Modified time: 2017-04-12 18:15:06
 import commands 
 import time 
 import datetime 
@@ -12,7 +12,7 @@ from config import *
 mode = dict_set['RunMode']
 if mode == 'DAY':
     virus_alarm_path = dict_set['RefDir'] + 'virus_sm_alarm_' + yesterday[0:6] + '.csv'
-    time_section = yesterday[0:6]
+    time_section = yesterday[0:8]
 else:
     st = dict_set['DateStart']
     virus_alarm_path = dict_set['RefDir'] + 'virus_sm_alarm_' + st[0:6] + '.csv'
@@ -75,8 +75,6 @@ def get_url_map():
         url_ip_dict[url] = ip 
     f.close()
     return url_ip_dict
-
-
 
 def set_date():
     mode = dict_set['RunMode']
@@ -163,4 +161,12 @@ def clear_pass():
     cmd_exec(cmd)
 
 def get_datetime():
-    return time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    today = datetime.date.today()
+    yesterday = today - datetime.timedelta(days=1)
+    return str(yesterday)
+
+def divi(num1,num2):
+    if num1 == 0 or num2 == 0:
+        return 0 
+    else:
+        return float(1.0*num1/num1 + num2)

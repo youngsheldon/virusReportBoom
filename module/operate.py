@@ -3,7 +3,7 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:31:22
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-10 16:15:07
+# @Last Modified time: 2017-04-12 09:27:57
 from basic import *
 from config import * 
 import commands
@@ -59,7 +59,7 @@ def get_timeinterval_count():
             hour = str(hour)
         cmd = 'cat ' + dict_set['VirusDir'] + '* | awk -F \',\' \'{print $8}\' | cut -c12-13 | grep ' + hour +    ' | wc -l' 
         ret = commands.getstatusoutput(cmd)
-        rets.append(ret[1])
+        rets.append(int(ret[1]))
     return rets 
 
 def get_virus_sm_src_c():

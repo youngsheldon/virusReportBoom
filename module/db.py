@@ -3,20 +3,22 @@
 # @Author: anchen
 # @Date:   2017-04-05 16:13:52
 # @Last Modified by:   anchen
-# @Last Modified time: 2017-04-11 11:41:55
+# @Last Modified time: 2017-04-12 17:25:07
 import os 
 from basic import *
 from config import * 
 
 def sql_exec(sql):
     sql_exe = ''
+    mode = dict_set['RunMode']
     if isinstance(sql,list):
         for v in sql:
             sql_exe += v + '\n'
-        out = 'sqlplus smmcadmin/AdminDB^12@SMMC <<!\n' + sql_exe + 'exit;\n' + '!\n'
+        out = 'sqlplus smmchunan/A1234567@SMMC <<!\n' + sql_exe + 'exit;\n' + '!\n'
     else:
-        out = 'sqlplus smmcadmin/AdminDB^12@SMMC <<!\n' + sql + '\n' + 'exit;\n' + '!\n'
-    os.system(out)
+        out = 'sqlplus smmchunan/A1234567@SMMC <<!\n' + sql + '\n' + 'exit;\n' + '!\n'
+    if mode == 'DAY':
+        os.system(out)
 
 def bcp_load_apk_basic():
     db_version = dict_set['DatabaseVersion']
