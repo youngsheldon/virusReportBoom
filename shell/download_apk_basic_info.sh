@@ -1,5 +1,5 @@
 #!/bin/bash
-sqlplus -s smmchunan/A1234567@SMMC <<EOF
+sqlplus -s smmcadmin/AdminDB^12@SMMC <<EOF
 set colsep ,  
 set feedback off  
 set heading off  
